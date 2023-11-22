@@ -3,11 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 
 
-function MyButton() {
+function MyButtonc() {
   return (
     <button>Sample Button</button>
   );
 }
+
+
+
 function App() {
   return (
     <div className="App">
