@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 
-function MyButtonc() {
+function MyButton() {
   return (
     <button>Sample Button</button>
   );
