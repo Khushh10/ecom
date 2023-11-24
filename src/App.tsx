@@ -91,4 +91,4 @@ function renderList() {
   );
 }
 
-export default App;
+export default renderList;
