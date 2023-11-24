@@ -1,21 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
+let name = "Khush";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div>
-          <h1>Welcome To React</h1>
-          <p>{user.name}</p>
-          <img className='pictureR' src={user.imageSRC} alt='Picturee' style={{ width: user.imageSize, height: user.imageSize }}></img>
-          <p><MyButtonL /></p>
-        </div>
-      </header>
-    </div>
+    <>
+      <nav>
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Contact</li>
+      </nav>
+
+      <div className="container">
+        <h1>Hello {name}!</h1>
+      </div>
+    </>
   );
 }
 
@@ -43,6 +43,7 @@ const user = {
   imageSRC: 'https://plus.unsplash.com/premium_photo-1681400699241-834781696dc6?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   imageSize: 90,
 }
+
 function MyButtonL() {
   const [count, setCount] = useState(0);
 
@@ -79,7 +80,6 @@ function renderList() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <div>
           <h1>Welcome To Lists</h1>
           <ul>{city}</ul>
@@ -91,4 +91,4 @@ function renderList() {
   );
 }
 
-export default renderList;
+export default App;
