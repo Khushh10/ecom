@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 let name = "Khush";
 function App() {
@@ -46,25 +46,17 @@ const user = {
 
 function MyButtonL() {
   const [count, setCount] = useState(0);
-
   function alertC() {
     setCount(count + 1);
+    console.log("slert", count)
   }
+
+  useEffect(() => {
+    console.log("useeffect", count)
+  }, [count]);
 
   return (
     <button onClick={alertC}>👍 {count} Likes</button>
-  );
-}
-
-function MyButtonD() {
-  const [count, setCount] = useState(0);
-
-  function alertC() {
-    setCount(count + 1);
-  }
-
-  return (
-    <button onClick={alertC}>👎 {count} Dislikes</button>
   );
 }
 
@@ -84,7 +76,6 @@ function renderList() {
           <h1>Welcome To Lists</h1>
           <ul>{city}</ul>
           <MyButtonL />
-          <MyButtonD />
         </div>
       </header>
     </div>
