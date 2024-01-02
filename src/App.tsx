@@ -25,7 +25,7 @@ function App() {
   useEffect(() => { allData() }, []);
 
   useEffect(() => {
-    if(searchh === ''){
+    if (searchh === '') {
       allData();
     }
 
@@ -54,6 +54,9 @@ function App() {
                 <input style={{ verticalAlign: '4px', width: '80%' }} type="search" name="focus" placeholder="Search"
                   id="search-input" list="textt" onChange={event => setSearch(event.target.value)} />
                 <datalist id="textt">
+                  {data.map((pItems) => (
+                    <option value={pItems.title} />
+                  ))}
                 </datalist>
               </form>
             </div>
