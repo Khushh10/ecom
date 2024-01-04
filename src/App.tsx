@@ -3,13 +3,20 @@ import instance from './Services/instance';
 import bannerD from './Assets/Images/bannerrrr.png';
 import logo from './Assets/Images/logo1.png'
 import { useEffect, useState } from 'react';
+import MenuDrawer from './CommonComponents/MenuDrawer';
+import { Form, Button } from 'react-bootstrap';
+import Product from './CommonComponents/Product';
+
 function App() {
   const [data, setData] = useState<{ title: string, price: string, description: string, image: string }[]>([]);
   const [searchh, setSearch] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+  const [showData, setShowData] = useState(true);
+  const [showProduct, setShowProduct] = useState(false);
   const allData = async () => {
     try {
       const res = await instance.get<{ title: string, price: string, description: string, image: string }[]>('');
-      console.log(res.data);
+      console.log("All Products: ", res.data);
       setData(res.data);
     }
     catch (error) {
@@ -20,12 +27,28 @@ function App() {
   const search = async () => {
     let filter = data.filter((item) => item.title.includes(searchh));
     setData(filter);
+    setShowData(true);
+    setShowProduct(false);
+  }
+
+  function menuToggle() {
+    // setShowMenu(true);
+    // setShowData(false);
+    // setShowProduct(true);
+    setShowMenu(true)
+  }
+
+  function removedrawer() {
+    console.log("YES");
+    setShowMenu(false);
   }
 
   useEffect(() => { allData() }, []);
 
   useEffect(() => {
     if (searchh === '') {
+      setShowProduct(false);
+      setShowData(true);
       allData();
     }
 
@@ -36,10 +59,11 @@ function App() {
       <div className="bg-white text-white border border-light-subtle shadow-sm" style={{ position: 'sticky', top: 0, zIndex: 2 }}>
         <div className="flexMain">
           <div className="flex1">
-            <button className="whiteLink siteLink p-3"
-            // onClick={() => menuToggle()}
+            <Button className="whiteLink siteLink p-3"
+              onClick={() => menuToggle()}
+              style={{ backgroundColor: 'white' }}
             ><i className="fas fa-bars me-2"></i>
-              MENU</button>
+              MENU</Button>
           </div>
           <div className="flex2 text-center">
             <div><a href="http://localhost:3000"><img src={logo} alt="Logo"
@@ -47,57 +71,22 @@ function App() {
           </div>
           <div className="flex1">
             <div className="col text-start">
-              <form className="search-box">
+              <Form className="search-box">
                 <i className="fa-solid fa-magnifying-glass searchh"
                   onClick={search}
                 ></i>
                 <input style={{ verticalAlign: '4px', width: '80%' }} type="search" name="focus" placeholder="Search"
                   id="search-input" list="textt" onChange={event => setSearch(event.target.value)} />
-                <datalist id="textt">
-                  {data.map((pItems) => (
-                    <option value={pItems.title} />
+                {/* <datalist id="textt">
+                  {data.map((pItems, key) => (
+                    <option value={pItems.title} key={key} />
                   ))}
-                </datalist>
-              </form>
+                </datalist> */}
+              </Form>
             </div>
           </div>
         </div>
       </div >
-      <div id="menuHolder">
-        <div id="menuDrawer">
-          <div className="p-4 border-bottom">
-            <div className='row'>
-              <div className="col text-end ">
-                <i className="fas fa-times crosss" role="btn"
-                // onClick="menuToggle()"
-                ></i>
-              </div>
-            </div>
-          </div>
-          <div>
-            <a href="/" className="nav-menu-item"
-            // onClick="dataDisplay()"
-            ><i className="fas fa-home me-3"></i>All
-              Products</a>
-            <a href="/" className="nav-menu-item"
-            // onClick="maleClothes()"
-            ><i className="fa fa-male me-3"
-            // onClick="maleClothes()"
-            ></i>Male Clothing</a>
-            <a href="/" className="nav-menu-item"
-            // onClick="femaleClothes()"
-            ><i className="fa fa-female me-3"></i>Female
-              Clothing</a>
-            <a href="/" className="nav-menu-item"
-            // onClick="Electricc()"
-            ><i
-              className="fa fa-microchip me-3"></i>Electronics</a>
-            <a href="/" className="nav-menu-item"
-            // onClick="Jewellery()"
-            ><i className="fa fa-diamond me-3"></i>Jewelery</a>
-          </div>
-        </div>
-      </div>
 
       <div className="container">
         <div className="row" style={{ justifyContent: 'center' }}>
@@ -109,18 +98,18 @@ function App() {
         </div>
       </div>
 
-      <div className="container" style={{ justifyContent: 'center' }}>
+      {showData && <div className="container" style={{ justifyContent: 'center' }}>
         <article className="post" style={{ padding: '20px' }}>
           <div className="col-md-12 align-content-center">
             <div className="d-flex row" id="valuess">
-              {data.map((pItems) => (
+              {data.map((pItems, key) => (
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 d-flex">
                   <div className="card card-style w-100 my-2 center shadow">
                     <div className="my-2">
                       <img src={pItems.image} className="img-fluid imagee card-img-top" alt='banner img' />
                     </div>
                     <div className="justifyy card-body d-flex flex-column text-center">
-                      <p className="card-text" style={{ overflow: 'hidden', height: '24px', fontSize: 'medium', }}><b>{pItems.title}</b></p>
+                      <p className="card-text" key={key} style={{ overflow: 'hidden', height: '24px', fontSize: 'medium', }}><b>{pItems.title}</b></p>
                       <h5 className="text-center">${pItems.price}</h5>
                       <p className="card-text" style={{ overflow: 'hidden', height: '75px', fontSize: 'small' }}>{pItems.description}</p>
                     </div>
@@ -132,7 +121,10 @@ function App() {
             </div>
           </div>
         </article>
-      </div>
+      </div>}
+      {showMenu && <MenuDrawer removedrawer={removedrawer} />}
+      {showProduct && <Product />}
+      {/* <h1 className="text-3xl font-bold text-red-500 underline text-center">Hello world!</h1> */}
     </>
   );
 }
