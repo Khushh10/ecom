@@ -1,22 +1,6 @@
+import { useEffect } from "react";
 
-import { useState, useEffect } from "react";
-import instance from "../Services/instance";
-
-const MenuDrawer = (props: any) => {
-    const [data, setData] = useState<{}[]>([]);
-
-    const product = async () => {
-        try {
-            const res = await instance.get<{}[]>(`/categories`);
-            console.log("Category", res.data);
-            setData(res.data);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => { product() }, [])
+const MenuDrawer = (props: any, menuArrray: Array<string>) => {
     return (
         <div id="menuHolder" className="drawMenu">
             <div id="menuDrawer">
@@ -31,12 +15,12 @@ const MenuDrawer = (props: any) => {
                 </div>
                 <div>
                     <a href="/" className="nav-menu-item">All Products</a>
-                    {data.map(() => (<a href="/" className="nav-menu-item"
+                    {/* {catList.map((data) => (<a href="/" className="nav-menu-item"
                     // onClick="dataDisplay()"
-                    >{}</a>))}
+                    >{data}</a>))} */}
                 </div>
             </div>
         </div >
     );
-}
+};
 export default MenuDrawer;

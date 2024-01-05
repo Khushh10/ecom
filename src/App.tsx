@@ -1,26 +1,27 @@
 import './App.css';
 import instance from './Services/instance';
-import bannerD from './Assets/Images/bannerrrr.png';
 import logo from './Assets/Images/logo1.png'
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import MenuDrawer from './CommonComponents/MenuDrawer';
 import { Form, Button } from 'react-bootstrap';
 import Product from './CommonComponents/Product';
+import Banner from './CommonComponents/Banner';
 
 function App() {
-  const [data, setData] = useState<{ title: string, price: string, description: string, image: string }[]>([]);
+  const [data, setData] = useState<{ title: string, price: string, category: string, description: string, image: string }[]>([]);
+  const [catList, setCatList] = useState<ReactNode[]>([]);
   const [searchh, setSearch] = useState('');
   const [showMenu, setShowMenu] = useState(false);
   const [showData, setShowData] = useState(true);
   const [showProduct, setShowProduct] = useState(false);
   const allData = async () => {
     try {
-      const res = await instance.get<{ title: string, price: string, description: string, image: string }[]>('');
+      const res = await instance.get<{ title: string, price: string, description: string, category: string, image: string }[]>('');
       console.log("All Products: ", res.data);
       setData(res.data);
     }
     catch (error) {
-      console.log(error);
+      console.log("Error:", error);
     }
   }
 
@@ -31,11 +32,23 @@ function App() {
     setShowProduct(false);
   }
 
+  const categoryList = () => {
+    // console.log("Main", data);
+    data.forEach((dat) => {
+      if (catList.includes(dat.category)) {
+        // console.log("exists");
+      }
+      else {
+        catList.push((dat.category));
+        // console.log(catList);
+      }
+    })
+  }
+
   function menuToggle() {
-    // setShowMenu(true);
-    // setShowData(false);
-    // setShowProduct(true);
-    setShowMenu(true)
+    setShowMenu(true);
+    console.log(data);
+    categoryList();
   }
 
   function removedrawer() {
@@ -43,7 +56,19 @@ function App() {
     setShowMenu(false);
   }
 
-  useEffect(() => { allData() }, []);
+  const productChoice = (id: string) => {
+    setShowData(false);
+    setShowProduct(true);
+    console.log("WORK KAR RHA HAI", id);
+  }
+
+  useEffect(() => {
+    categoryList();
+  }, []);
+
+  useEffect(() => {
+    allData();
+  }, []);
 
   useEffect(() => {
     if (searchh === '') {
@@ -66,7 +91,7 @@ function App() {
               MENU</Button>
           </div>
           <div className="flex2 text-center">
-            <div><a href="http://localhost:3000"><img src={logo} alt="Logo"
+            <div className="flex justify-center items-center"><a href="http://localhost:3000"><img src={logo} alt="Logo"
               height="50%" width="50%" /></a></div>
           </div>
           <div className="flex1">
@@ -77,26 +102,18 @@ function App() {
                 ></i>
                 <input style={{ verticalAlign: '4px', width: '80%' }} type="search" name="focus" placeholder="Search"
                   id="search-input" list="textt" onChange={event => setSearch(event.target.value)} />
-                {/* <datalist id="textt">
+                <datalist id="textt">
                   {data.map((pItems, key) => (
                     <option value={pItems.title} key={key} />
                   ))}
-                </datalist> */}
+                </datalist>
               </Form>
             </div>
           </div>
         </div>
       </div >
 
-      <div className="container">
-        <div className="row" style={{ justifyContent: 'center' }}>
-          <div className="col-md-12 mt-4">
-            <div className="container" id="banner">
-              <img src={bannerD} alt="Banner Dikh Raha Hai" style={{ width: '100%', height: '100%' }} />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Banner/>
 
       {showData && <div className="container" style={{ justifyContent: 'center' }}>
         <article className="post" style={{ padding: '20px' }}>
@@ -121,10 +138,29 @@ function App() {
             </div>
           </div>
         </article>
-      </div>}
-      {showMenu && <MenuDrawer removedrawer={removedrawer} />}
+      </div>
+      }
       {showProduct && <Product />}
-      {/* <h1 className="text-3xl font-bold text-red-500 underline text-center">Hello world!</h1> */}
+      {showMenu && <div id="menuHolder" className="drawMenu">
+        <div id="menuDrawer">
+          <div className="p-4 border-bottom">
+            <div className='row'>
+              <div className="col text-end ">
+                <i className="fas fa-times crosss" typeof="btn"
+                  onClick={removedrawer}
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="nav-menu-item">All Products</p>
+            {catList.map((obj, key: unknown) => (<p id={key as string} className="nav-menu-item"
+              onClick={() => productChoice(key as string)}
+            >{obj}</p>))}
+          </div>
+        </div>
+      </div >}
+      {/* <h1 className="text-3xl font-bold text-red-500 underline text-center">Hello world!</h1>  */}
     </>
   );
 }

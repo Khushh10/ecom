@@ -214,13 +214,13 @@ button.siteLink {
   cursor: pointer
 }
 
-a.nav-menu-item:hover {
+p.nav-menu-item:hover {
   margin-left: 2px;
   border-left: 10px solid red;
   color: red;
 }
 
-a.nav-menu-item {
+p.nav-menu-item {
   transition: border 200ms linear;
   text-decoration: none;
   display: block;
