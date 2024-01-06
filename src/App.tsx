@@ -2,22 +2,25 @@ import './App.css';
 import instance from './Services/instance';
 import logo from './Assets/Images/logo1.png'
 import { ReactNode, useEffect, useState } from 'react';
-import MenuDrawer from './CommonComponents/MenuDrawer';
 import { Form, Button } from 'react-bootstrap';
-import Product from './CommonComponents/Product';
-import Banner from './CommonComponents/Banner';
+import Product from './Components/Product';
+import Banner from './Components/Banner';
+import { jewData, menData, elecData, wData } from './CommonFunctions/calls';
+import NoProduct from './Components/NoProdFound';
 
 function App() {
-  const [data, setData] = useState<{ title: string, price: string, category: string, description: string, image: string }[]>([]);
+  const [data, setData] = useState<Array<TProduct>>([]);
   const [catList, setCatList] = useState<ReactNode[]>([]);
+  const [choiced, setChoiced] = useState<Array<TProduct>>([]);
   const [searchh, setSearch] = useState('');
   const [showMenu, setShowMenu] = useState(false);
   const [showData, setShowData] = useState(true);
   const [showProduct, setShowProduct] = useState(false);
+  const [showError, setShowError] = useState(false);
   const allData = async () => {
     try {
-      const res = await instance.get<{ title: string, price: string, description: string, category: string, image: string }[]>('');
-      console.log("All Products: ", res.data);
+      const res = await instance.get<Array<TProduct>>('');
+      // console.log("All Products: ", res.data);
       setData(res.data);
     }
     catch (error) {
@@ -47,19 +50,42 @@ function App() {
 
   function menuToggle() {
     setShowMenu(true);
-    console.log(data);
+    // console.log(data);
     categoryList();
   }
 
   function removedrawer() {
-    console.log("YES");
+    // console.log("YES");
     setShowMenu(false);
   }
 
-  const productChoice = (id: string) => {
-    setShowData(false);
-    setShowProduct(true);
-    console.log("WORK KAR RHA HAI", id);
+  const productChoice = (id: number) => {
+    if (id === 0) {
+      // setChoiced(data);
+      console.clear();
+      menData(data);
+    }
+    else if (id === 1) {
+      console.clear();
+      jewData(data);
+      // setShowData(false);
+      // setShowProduct(true);
+    }
+    else if (id === 2) {
+      console.clear();
+      // setChoiced(data);
+      elecData(data);
+    }
+    else if (id === 3) {
+      console.clear();
+      wData(data);
+    }
+  }
+
+  const productAll = () => {
+    console.log("Data AA RAHA");
+    setShowData(true);
+    setShowProduct(false);
   }
 
   useEffect(() => {
@@ -78,6 +104,7 @@ function App() {
     }
 
   }, [searchh])
+
 
   return (
     <>
@@ -112,9 +139,7 @@ function App() {
           </div>
         </div>
       </div >
-
-      <Banner/>
-
+      {showData && <Banner />}
       {showData && <div className="container" style={{ justifyContent: 'center' }}>
         <article className="post" style={{ padding: '20px' }}>
           <div className="col-md-12 align-content-center">
@@ -140,7 +165,7 @@ function App() {
         </article>
       </div>
       }
-      {showProduct && <Product />}
+      {showProduct && <Product jData={choiced[0]} />}
       {showMenu && <div id="menuHolder" className="drawMenu">
         <div id="menuDrawer">
           <div className="p-4 border-bottom">
@@ -153,14 +178,16 @@ function App() {
             </div>
           </div>
           <div>
-            <p className="nav-menu-item">All Products</p>
-            {catList.map((obj, key: unknown) => (<p id={key as string} className="nav-menu-item"
-              onClick={() => productChoice(key as string)}
+            <p className="nav-menu-item cursor-pointer" onClick={() => productAll()}>All Products</p>
+            {catList.map((obj, key: unknown) => (<p id={key as string} className="nav-menu-item cursor-pointer"
+              onClick={() => productChoice(key as number)}
             >{obj}</p>))}
           </div>
         </div>
       </div >}
+      {showError && <NoProduct />}
       {/* <h1 className="text-3xl font-bold text-red-500 underline text-center">Hello world!</h1>  */}
+      {/* <ProductCard aList={catList} /> */}
     </>
   );
 }
