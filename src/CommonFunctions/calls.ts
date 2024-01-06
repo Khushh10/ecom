@@ -1,34 +1,25 @@
-export function jewData(data:Array<TProduct>) {
-    data.forEach((dat) => {
-        if (dat.category === 'jewelery') {
-            // choiced.push(dat);
-            console.log("Jewelery Data", dat);
-        }
-    })
-}
-
-export function elecData(data:Array<TProduct>){
+export function elecData(data: Array<TProduct>, choiced: Array<TProduct>) {
     data.forEach((dat) => {
         if (dat.category === 'electronics') {
-            // choiced.push(dat);
-            console.log("Electric Data",dat);
+            choiced.push(dat);
+            console.log("Electric Data", choiced);
         }
     })
 }
 
-export function menData(data:Array<TProduct>){
+export function menData(data: Array<TProduct>, choiced:Array<TProduct>) {
     data.forEach((dat) => {
         if (dat.category === "men's clothing") {
-            // choiced.push(dat);
-            console.log("Mens Data",dat);
+            choiced.push(dat);
+            console.log("Mens Data", choiced);
         }
     })
 }
 
-export function wData(data:Array<TProduct>){
-    data.forEach((dat)=>{
+export function wData(data: Array<TProduct>, choiced: Array<TProduct>) {
+    data.forEach((dat) => {
         if (dat.category === "women's clothing") {
-            console.log("Women's Data",dat);
+            console.log("Women's Data", dat);
         }
     })
 }

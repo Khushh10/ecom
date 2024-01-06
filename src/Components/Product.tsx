@@ -1,27 +1,27 @@
-interface TProps {
-    jData: TProduct
+interface TProps extends TProduct {
+    jData: Array<TProduct>;
 }
 const Product = (props: TProps) => {
     const { jData } = props;
     console.log("All Data: ", jData);
     return (
         <div>
-            <div className="container" style={{ justifyContent: 'center' }}>
+            <div className="container mx-auto sm:px-4" style={{ justifyContent: 'center' }}>
                 <article className="post" style={{ padding: '20px' }}>
-                    <div className="col-md-12 align-content-center">
-                        <div className="d-flex row" id="valuess">
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 d-flex">
-                                <div className="card card-style w-100 my-2 center shadow">
+                    <div className="md:w-full pr-4 pl-4 content-center">
+                        <div className="flex flex flex-wrap " id="valuess">
+                            <div className="xl:w-1/4 pr-4 pl-4 lg:w-1/3 pr-4 pl-4 md:w-1/2 pr-4 pl-4 sm:w-1/2 pr-4 pl-4 flex">
+                                <div className="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300 card-style w-full my-2 center shadow">
                                     <div className="my-2">
-                                        <img src={jData.image} className="img-fluid imagee card-img-top" alt='banner img' />
+                                        <img src={props.image} className="max-w-full h-auto imagee w-full rounded rounded-t" alt='banner img' />
                                     </div>
-                                    <div className="justifyy card-body d-flex flex-column text-center">
-                                        <p className="card-text" style={{ overflow: 'hidden', height: '24px', fontSize: 'medium', }}><b>{jData.title}</b></p>
-                                        <h5 className="text-center">${jData.price}</h5>
-                                        <p className="card-text" style={{ overflow: 'hidden', height: '75px', fontSize: 'small' }}>{jData.description}</p>
+                                    <div className="justifyy flex-auto p-6 flex flex-col text-center">
+                                        <p className="mb-0" style={{ overflow: 'hidden', height: '24px', fontSize: 'medium', }}><b>{props.title}</b></p>
+                                        <h5 className="text-center">${props.price}</h5>
+                                        <p className="mb-0" style={{ overflow: 'hidden', height: '75px', fontSize: 'small' }}>{props.description}</p>
                                     </div>
-                                    <a href="#!" className="btn btn-dark card-style cart">Add to cart</a>
-                                    <a href="#!" className="btn btn-light card-style cart my-2"><i className="fas fa-heart fa-lg text-secondary px-1"></i></a>
+                                    <a href="#!" className="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-gray-900 text-white hover:bg-gray-900 card-style cart">Add to cart</a>
+                                    <a href="#!" className="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-gray-100 text-gray-800 hover:bg-gray-200 card-style cart my-2"><i className="fas fa-heart fa-lg text-gray-600 px-1"></i></a>
                                 </div>
                             </div>
                         </div>
