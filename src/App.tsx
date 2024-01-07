@@ -2,17 +2,14 @@ import './App.css';
 import instance from './Services/instance';
 import { useEffect, useState } from 'react';
 import Product from './Components/Product';
-import Banner from './Components/Banner';
-import { menData, elecData, wData } from './CommonFunctions/calls';
 import NoProduct from './Components/NoProdFound';
 import MenuDrawer from './Components/MenuDrawer';
 import Header from './Components/Header';
 import ProductCard from './Components/ProductCard';
-
 function App() {
   const [data, setData] = useState<Array<TProduct>>([]);
   const [catList, setCatList] = useState<Array<string>>([]);
-  const [choiced, setChoiced] = useState<Array<TProduct>>([]);
+  const [product, setProduct] = useState<Array<TProduct>>([]);
   const [searchh, setSearch] = useState('');
   const [showMenu, setShowMenu] = useState(false);
   const [showData, setShowData] = useState(true);
@@ -63,35 +60,46 @@ function App() {
   }
 
   function removedrawer() {
-    // console.log("YES");
+    // console.log("YEASS");
     setShowMenu(false);
   }
 
+  const [yeas, setYeas] = useState<Array<TProduct>[]>([]);
+
   const productChoice = (id: number) => {
+    setProduct([]);
     if (id === 0) {
-      // setChoiced(data);
-      console.clear();
-      menData(data, choiced);
-    }
-    else if (id === 1) {
-      data.forEach((dat: TProduct) => {
-        if (dat.category === 'jewelery') {
-          setChoiced(data);
-          console.log("Jewelery Data", data);
-        }
-      })
-      // setShowData(false);
-      // setShowProduct(true);
-    }
-    else if (id === 2) {
-      console.clear();
-      choiced.pop();
-      // setChoiced(data);
-      elecData(data, choiced);
-    }
-    else if (id === 3) {
-      console.clear();
-      wData(data, choiced);
+      const filteredData = data.filter((item) => item.category === `men's clothing`);
+      setProduct(filteredData);
+      // console.clear();
+      console.log(filteredData);
+      setShowProduct(true);
+      setShowData(false);
+      setShowError(false);
+    } else if (id === 1) {
+      const filteredData = data.filter((item) => item.category.includes(`jewelery`));
+      setProduct(filteredData);
+      // console.clear();
+      console.log(filteredData);
+      setShowProduct(true);
+      setShowData(false);
+      setShowError(false);
+    } else if (id === 2) {
+      const filteredData = data.filter((item) => item.category.includes(`electronics`));
+      setProduct(filteredData);
+      // console.clear();
+      console.log(filteredData);
+      setShowProduct(true);
+      setShowData(false);
+      setShowError(false);
+    } else if (id === 3) {
+      const filteredData = data.filter((item) => item.category.includes(`women's clothing`));
+      setProduct(filteredData);
+      // console.clear();
+      console.log(filteredData);
+      setShowProduct(true);
+      setShowData(false);
+      setShowError(false);
     }
   }
 
@@ -114,18 +122,17 @@ function App() {
       setShowProduct(false);
       setShowData(true);
       allData();
+      setShowError(false);
     }
 
   }, [searchh])
 
-
   return (
     <>
       <Header menuToggle={menuToggle} search={search} setSearch={setSearch} data={data} />
-      {showData && <Banner />}
       {showData && <ProductCard data={data} />}
-      {showProduct && <Product jData={choiced} title={''} price={''} description={''} category={''} image={''} />}
-      {showMenu && (<MenuDrawer catList={catList} productAll={productAll} productChoice={productChoice} removedrawer={removedrawer} />)}
+      {showProduct && <Product data={{ product }} />}
+      {showMenu && <MenuDrawer catList={catList} productAll={productAll} productChoice={productChoice} removedrawer={removedrawer} />}
       {showError && <NoProduct />}
     </>
   );

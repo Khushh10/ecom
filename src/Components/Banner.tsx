@@ -1,7 +1,5 @@
-import bannerD from '../Assets/Images/bannerrrr.png';
-
-
-const Banner = () => {
+import bannerD from '../Assets/Images/bannerrrr.png'
+function Banner() {
     return (
         <div className="container mx-auto sm:px-4">
             <div className="flex flex-wrap " style={{ justifyContent: 'center' }}>

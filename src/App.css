@@ -214,6 +214,12 @@ button.siteLink {
   cursor: pointer
 }
 
+p.nav-menu-item.active {
+  margin-left: 2px;
+  border-left: 10px solid red;
+  color: red;
+}
+
 p.nav-menu-item:hover {
   margin-left: 2px;
   border-left: 10px solid red;
@@ -353,4 +359,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 .clear:not(:valid)~.search-clear {
   display: none;
+}
+
+.disp{
+  font-size: medium;
 }
