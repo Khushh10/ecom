@@ -4,9 +4,6 @@ function ProductList(props: { data: Array<TProduct> }) {
     return (
         <>
             <Banner />
-            <div className="container">
-
-            </div>
             <div className="container mx-auto sm:px-4 mx-auto sm:px-4" style={{ justifyContent: 'center' }}>
                 <article className="post" style={{ padding: '20px' }}>
                     <div className="md:w-full pr-4 pl-4 content-center">

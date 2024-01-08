@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Banner from './Banner';
 import Rating from 'react-rating-stars-component';
-interface TProps {
-    product: Array<TProduct>;
-}
-function Product(props: { data: TProps }) {
+// interface TProps {
+//     product: Array<TProduct>;
+// }
+function Product(props: { data: Array<TProduct> }) {
     return (
         <>
             <Banner />
@@ -13,7 +13,7 @@ function Product(props: { data: TProps }) {
                     <article className="post" style={{ padding: '20px' }}>
                         <div className="md:w-full pr-4 pl-4 content-center">
                             <div className="flex flex flex-wrap " id="valuess">
-                                {props.data.product.map((pItems, key) => (
+                                {props.data.map((pItems, key) => (
                                     <div className="xl:w-1/4 pr-4 pl-4 lg:w-1/3 pr-4 pl-4 md:w-1/2 pr-4 pl-4 sm:w-1/2 pr-4 pl-4 flex" key={key}>
                                         <div className="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300 card-style w-full my-2 center shadow">
                                             <div className="my-2">
