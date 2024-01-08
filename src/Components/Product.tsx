@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import Banner from './Banner';
 import Rating from 'react-rating-stars-component';
-// interface TProps {
-//     product: Array<TProduct>;
-// }
 function Product(props: { data: Array<TProduct> }) {
     return (
         <>

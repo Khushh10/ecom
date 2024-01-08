@@ -21,8 +21,8 @@ function Header(props: HeaderProps) {
                 </div>
                 <div className="flex2 text-center">
                     <div className="flex justify-center items-center">
-                        <a href="http://localhost:3000">
-                            <img src={logo} alt="Logo" height="50%" width="50%" />
+                        <a className="flex justify-center items-center" href="http://localhost:3000">
+                            <img src={logo} alt="Logo" height="90%" width="90%" />
                         </a>
                     </div>
                 </div>

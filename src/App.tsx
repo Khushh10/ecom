@@ -6,6 +6,7 @@ import NoProduct from './Components/NoProdFound';
 import MenuDrawer from './Components/MenuDrawer';
 import Header from './Components/Header';
 import ProductCard from './Components/ProductCard';
+import CommonCard from './Components/CommonCard';
 function App() {
   const [showSel, setShowSel] = useState('ALL PRODUCTS');
   const [data, setData] = useState<Array<TProduct>>([]);
@@ -67,43 +68,57 @@ function App() {
 
   const productChoice = (id: number) => {
     setProduct([]);
-    if (id === 0) {
-      const filteredData = data.filter((item) => item.category === `men's clothing`);
-      setShowSel('MEN\'S CLOTHING');
-      setProduct(filteredData);
-      // console.clear();
-      console.log(filteredData);
-      setShowProduct(true);
-      setShowData(false);
-      setShowError(false);
-    } else if (id === 1) {
-      const filteredData = data.filter((item) => item.category.includes(`jewelery`));
-      setShowSel('JEWELERY');
-      setProduct(filteredData);
-      // console.clear();
-      console.log(filteredData);
-      setShowProduct(true);
-      setShowData(false);
-      setShowError(false);
-    } else if (id === 2) {
-      const filteredData = data.filter((item) => item.category.includes(`electronics`));
-      setShowSel('ELECTRONICS');
-      setProduct(filteredData);
-      // console.clear();
-      console.log(filteredData);
-      setShowProduct(true);
-      setShowData(false);
-      setShowError(false);
-    } else if (id === 3) {
-      const filteredData = data.filter((item) => item.category.includes(`women's clothing`));
-      setShowSel('WOMEN\'S CLOTHING');
-      setProduct(filteredData);
-      // console.clear();
-      console.log(filteredData);
-      setShowProduct(true);
-      setShowData(false);
-      setShowError(false);
+    switch (id) {
+      case 0:
+        {
+          const filteredData = data.filter((item) => item.category === `men's clothing`);
+          setShowSel('MEN\'S CLOTHING');
+          setProduct(filteredData);
+          // console.clear();
+          console.log(filteredData);
+          setShowProduct(true);
+          setShowData(false);
+          setShowError(false);
+          break;
+        }
+      case 1:
+        {
+          const filteredData = data.filter((item) => item.category.includes(`jewelery`));
+          setShowSel('JEWELERY');
+          setProduct(filteredData);
+          // console.clear();
+          console.log(filteredData);
+          setShowProduct(true);
+          setShowData(false);
+          setShowError(false);
+          break;
+        }
+      case 2:
+        {
+          const filteredData = data.filter((item) => item.category.includes(`electronics`));
+          setShowSel('ELECTRONICS');
+          setProduct(filteredData);
+          // console.clear();
+          console.log(filteredData);
+          setShowProduct(true);
+          setShowData(false);
+          setShowError(false);
+          break;
+        }
+      case 3:
+        {
+          const filteredData = data.filter((item) => item.category.includes(`women's clothing`));
+          setShowSel('WOMEN\'S CLOTHING');
+          setProduct(filteredData);
+          // console.clear();
+          console.log(filteredData);
+          setShowProduct(true);
+          setShowData(false);
+          setShowError(false);
+          break;
+        }
     }
+
   }
 
   const productAll = () => {
@@ -113,11 +128,8 @@ function App() {
   }
 
   useEffect(() => {
-    categoryList();
-  }, []);
-
-  useEffect(() => {
     allData();
+    categoryList();
   }, []);
 
   useEffect(() => {
