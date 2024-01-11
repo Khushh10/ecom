@@ -6,5 +6,6 @@ interface TProduct {
   category: string;
   image: string;
   rating: { rate: number }
+  id: number;
 }
 

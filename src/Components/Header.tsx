@@ -1,51 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import logo from '../Assets/Images/logo1.png'
 
 interface HeaderProps {
-    menuToggle: () => void;
     search: () => void;
-    setSearch: React.Dispatch<React.SetStateAction<string>>;
+    defSearch: (event: React.SyntheticEvent) => void;
+    setSearchBox: React.Dispatch<React.SetStateAction<string>>;
     data: Array<TProduct>;
 }
 
+
 function Header(props: HeaderProps) {
+    const { search, defSearch, setSearchBox } = props;
     return (
-        <div className="bg-white text-white border border-light-subtle shadow-sm" style={{ position: 'sticky', top: 0, zIndex: 2 }}>
-            <div className="flexMain">
-                <div className="flex1">
-                    <Button className="whiteLink siteLink p-6" onClick={props.menuToggle} style={{ backgroundColor: 'white' }}>
-                        <i className="fas fa-bars me-2"></i>
-                        MENU
-                    </Button>
-                </div>
-                <div className="flex2 text-center">
-                    <div className="flex justify-center items-center">
-                        <a className="flex justify-center items-center" href="http://localhost:3000">
-                            <img src={logo} alt="Logo" height="90%" width="90%" />
-                        </a>
+        <div className="grid grid-cols-6 gap-4">
+            {/* <Header defSearch={defSearch} searchBox={searchBox} search={search} setSearchBox={setSearchBox} data={data} /> */}
+            <div className="col-end-7 col-span-3 mt-2">
+                <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden ">
+                    <div className="grid place-items-center h-full w-12 text-red">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={search}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" color="red" />
+                        </svg>
                     </div>
-                </div>
-                <div className="flex1">
-                    <div className="relative flex-grow max-w-full flex-1 px-4 text-start">
-                        <Form className="search-box">
-                            <i className="fa-solid fa-magnifying-glass searchh" onClick={props.search}></i>
-                            <input
-                                style={{ verticalAlign: '4px', width: '80%' }}
-                                type="search"
-                                name="focus"
-                                placeholder="Search"
-                                id="search-input"
-                                list="textt"
-                                onChange={(event) => props.setSearch(event.target.value)}
-                            />
-                            <datalist id="textt">
-                                {props.data.map((pItems, key) => (
-                                    <option value={pItems.title} key={key} />
-                                ))}
-                            </datalist>
-                        </Form>
-                    </div>
+                    <Form onSubmit={defSearch}>
+                        <input
+                            className="peer h-full w-full outline-none text-sm text-red pr-2 border-red"
+                            type="search"
+                            id="search"
+                            placeholder="Search"
+                            onChange={(event) => setSearchBox(event.target.value)}
+                            onClick={search}
+                            list="prodList"
+                        />
+                        <datalist id="prodList" >
+                            {props.data.map((pItems, key) => (
+                                <option value={pItems.title} key={key} />
+                            ))}
+                        </datalist>
+                    </Form>
                 </div>
             </div>
         </div>
