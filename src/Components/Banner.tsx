@@ -1,4 +1,5 @@
 import bannerD from '../Assets/Images/bannerrrr.png'
+
 function Banner() {
     return (
         <div className="container mx-auto sm:px-4">

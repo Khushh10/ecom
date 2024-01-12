@@ -190,8 +190,7 @@ button.siteLink {
   top: 0;
   left: 0;
   border-right: 1px solid #eaeaea;
-  min-width: 25%;
-  max-width: 320px;
+  max-width: 16.6%;
   width: 100%;
   transform: translateX(-100%);
   transition: transform 200ms linear;
@@ -207,7 +206,7 @@ button.siteLink {
 }
 
 .drawMenu>#mainNavigation {
-  transform: translateX(25%);
+  transform: translateX(10%);
 }
 
 .fa-times {
@@ -274,7 +273,7 @@ select.noStyle {
   scale: 1;
 }
 
-.searchBox .search,
+.searchBox,
 .searchBox .close {
   position: relative;
   min-width: 80px;
@@ -363,4 +362,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 .disp{
   font-size: medium;
+}
+
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
 }
