@@ -1,16 +1,16 @@
+import { useEffect } from 'react';
 import logo from '../Assets/Images/logo1.png'
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 interface MenuProps {
   catList: string[];
-  productAll: () => void;
   productChoice: (id: number) => void;
   showSel: string;
   setShowSel: React.Dispatch<React.SetStateAction<string>>;
-  selectedItem: string;
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>
 }
 
 const MenuDrawer = (props: MenuProps) => {
+  const { showSel, setShowSel, productChoice, catList } = props
   return (
     <div id="menuHolder" className="drawMenu">
       <div id="menuDrawer">
@@ -25,13 +25,13 @@ const MenuDrawer = (props: MenuProps) => {
         </div>
         <div>
           <Link to="/">
-            <p className={`nav-menu-item cursor-pointer ${props.showSel === 'ALL PRODUCTS' ? 'active' : ''}`}
-              onClick={() => { props.productAll(); props.setShowSel('ALL PRODUCTS') }}
+            <p className={`nav-menu-item cursor-pointer ${showSel === 'ALL PRODUCTS' ? 'active' : ''}`}
+              onClick={() => { setShowSel('ALL PRODUCTS') }}
             >All Products</p></Link>
-          {props.catList.map((obj, key) => (
+          {catList.map((obj, key) => (
             <Link to={obj.replace(/\s/g, '-')}>
-              <p key={key} className={`nav-menu-item cursor-pointer ${props.showSel === obj ? 'active' : console.log(obj)}`}
-                onClick={() => { props.productChoice(key); props.setShowSel(obj); }}>
+              <p key={key} className={`nav-menu-item cursor-pointer ${showSel === obj ? 'active' : ''}`}
+                onClick={() => { productChoice(key); setShowSel(obj); }}>
                 {obj.toUpperCase()}
               </p>
             </Link>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import logo from '../Assets/Images/logo1.png'
+import { Form } from 'react-bootstrap';
+import { itemsCart } from '../functions';
+import { useNavigate } from 'react-router';
+import { useAppDispatch } from '../store/hooks';
+import { cartInfo } from '../Redux/cartSlice';
 
 interface HeaderProps {
     search: () => void;
@@ -9,38 +11,57 @@ interface HeaderProps {
     data: Array<TProduct>;
 }
 
-
 function Header(props: HeaderProps) {
-    const { search, defSearch, setSearchBox } = props;
+    const { search, defSearch, setSearchBox } = props
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch();
+
+    function addToCart() {
+        // dispatch(cartInfo(cartI));
+        navigate('/cart'); 
+    }
     return (
-        <div className="grid grid-cols-6 gap-4">
+        <>
             {/* <Header defSearch={defSearch} searchBox={searchBox} search={search} setSearchBox={setSearchBox} data={data} /> */}
-            <div className="col-end-7 col-span-3 mt-2">
-                <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden ">
-                    <div className="grid place-items-center h-full w-12 text-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={search}>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" color="red" />
-                        </svg>
-                    </div>
-                    <Form onSubmit={defSearch}>
+            <Form className="my-3" onSubmit={defSearch}>
+                <div>
+                    <div className="relative w-full min-w-[200px] h-10">
+                        <div className="absolute grid w-5 h-5 place-items-center text-red-500 top-2/4 right-2 -translate-y-2/4">
+                            <i className="fas fa-search" aria-hidden="true" onClick={search}></i>
+                        </div>
                         <input
-                            className="peer h-full w-full outline-none text-sm text-red pr-2 border-red"
-                            type="search"
-                            id="search"
-                            placeholder="Search"
-                            onChange={(event) => setSearchBox(event.target.value)}
-                            onClick={search}
+                            type='search'
+                            className="peer w-full h-full bg-transparent text-red-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-red-200 placeholder-shown:border-t-red-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-5 py-2.5 rounded-[7px] !pr-9 border-red-200 focus:border-gray-900"
+                            placeholder=" "
                             list="prodList"
+                            onChange={(event) => setSearchBox(event.target.value)}
                         />
+
                         <datalist id="prodList" >
                             {props.data.map((pItems, key) => (
-                                <option value={pItems.title} key={key} />
+                                <option onClick={search} value={pItems.title} key={key} />
                             ))}
                         </datalist>
-                    </Form>
+
+                        <label
+                            className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-red-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-red-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-red-500 peer-focus:text-red-900 before:border-red-200 peer-focus:before:!border-red-900 after:border-red-200 peer-focus:after:!border-red-900">
+                            Search
+                        </label>
+
+
+                    </div>
+
                 </div>
+            </Form>
+            <div>
+                <button onClick={() => { addToCart() }} type="button" className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-3 mx-3">
+                    <i className="fa-solid fa-cart-shopping fa-lg"></i>
+                    <span className="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">
+                        {itemsCart}
+                    </span>
+                </button>
             </div>
-        </div>
+        </>
     );
 }
 

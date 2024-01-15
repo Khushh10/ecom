@@ -1,4 +1,3 @@
-import Sample from "./Sample";
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
