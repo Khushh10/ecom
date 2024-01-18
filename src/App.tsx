@@ -1,99 +1,43 @@
 import './App.css';
 import instance from './Services/instance';
 import { useEffect, useState } from 'react';
-import CategoryChoice from './Components/CategoryChoice';
-// import Header from './Components/Header';
-import ProductCard from './Components/ProductCard';
+import ProductsCategory from './Components/ProductsCategory';
+import Home from './Components/Home';
 import ProductReview from './Components/ProductReview';
-// import CommonCard from './Components/CommonCard';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Layout from './Components/Layout';
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { dataStore, chosenCategory } from './Redux/productsSlice';
+import { availableCategories, dataStore } from './Redux/productsSlice';
 import Cart from './Components/Cart';
+import { itemsCart } from './functions';
+import { selectData } from './Redux/productsSlice';
 
 function App() {
-  const [showSel, setShowSel] = useState('ALL PRODUCTS');
-  const [catList, setCatList] = useState<Array<string>>([]);
+  const [categoriesList, setCatList] = useState<Array<string>>([]);
   const [allProducts, setAllProducts] = useState<Array<TProduct>>([]);
-  const [res, setRes] = useState<Array<TProduct>>([]);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [searchBox, setSearchBox] = useState('');
 
   const dispatch = useAppDispatch()
-  const sData = useAppSelector((state) => state.products.value)
+  const allProductRedux = useAppSelector(selectData)
 
   const allData = async () => {
     try {
       const res = await instance.get<Array<TProduct>>('');
-      //console.log("All Products: ", res.sData);
       dispatch(dataStore(res.data));
       setAllProducts(res.data);
     }
     catch (error) {
-      //console.log("Error:", error);
     }
   }
 
-  const categoryList = () => {
-    //console.log("Main", sData);
-    sData.forEach((dat) => {
-      if (catList.includes(dat.category)) {
-        //console.log("exists");
-      }
-      else {
-        catList.push((dat.category));
-        //console.log("categories:", catList);
+  function categoryList() {
+    let temCatList: Array<string> = []
+    allProductRedux.forEach((dat) => {
+      if (!temCatList.includes(dat.category)) {
+        temCatList.push((dat.category));
       }
     })
-  }
-
-  const defaultSets = async (filteredData: Array<TProduct>) => {
-    try {
-      // setProduct(filteredData);
-      setRes(filteredData);
-      setSearchBox('');
-      dispatch(chosenCategory(filteredData));
-    }
-    catch (error) {
-      console.log("Default set error: ", error);
-    }
-  }
-
-  const productChoice = async (id?: number) => {
-    setSearchBox('');
-    allData();
-    switch (id) {
-      case 0:
-        {
-          const filteredData = allProducts.filter((item) => item.category === catList[0]);
-          //console.log(catList);
-          //console.log(filteredData);
-          defaultSets(filteredData);
-          break;
-        }
-      case 1:
-        {
-          const filteredData = allProducts.filter((item) => item.category.includes(catList[1]));
-          //console.log(filteredData);
-          defaultSets(filteredData);
-          break;
-        }
-      case 2:
-        {
-          const filteredData = allProducts.filter((item) => item.category.includes(catList[2]));
-          //console.log(filteredData);
-          defaultSets(filteredData);
-          break;
-        }
-      case 3:
-        {
-          const filteredData = allProducts.filter((item) => item.category.includes(catList[3]));
-          //console.log(filteredData);
-          defaultSets(filteredData);
-          break;
-        }
-    }
+    setCatList(temCatList)
+    dispatch(availableCategories(temCatList));
   }
 
   useEffect(() => {
@@ -101,23 +45,26 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log("Cart Updated")
+  }, [itemsCart])
+
+  useEffect(() => {
     categoryList();
-  }, [sData]);
+  }, [allProductRedux]);
+
 
   return (
     <>
       <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout productChoice={productChoice} showSel={showSel} setShowSel={setShowSel} selectedItem={selectedItem} setSelectedItem={setSelectedItem} catList={catList} />}>
-              <Route index element={<ProductCard allProducts={allProducts} searchBox={searchBox} setSearchBox={setSearchBox} />} />
-              {catList.map((title) => (
-                < Route path={title.replace(/\s/g, '-')} element={< CategoryChoice res={res} searchBox={searchBox} setSearchBox={setSearchBox} />} />))}
-              <Route path='/product-review' element={<ProductReview />} />
-              <Route path='/cart' element={<Cart />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home allProducts={allProducts} />} />
+            {categoriesList.map((title) => (
+              <Route path={title.replace(/\s/g, '-')} element={<ProductsCategory allData={allData} />} />))}
+            <Route path='/product-review' element={<ProductReview />} />
+            <Route path='/cart' element={<Cart />} />
+          </Route>
+        </Routes>
       </div>
     </>
   );

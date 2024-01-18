@@ -4,6 +4,9 @@ import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { similarProduct } from "../Redux/searchSlice";
 import Rating from 'react-rating-stars-component';
+import { selectData } from "../Redux/productsSlice";
+import { selectSearch } from "../Redux/searchSlice";
+
 function ProductReview() {
     const location = useLocation();
     const [product, setProduct] = useState<Array<TProduct>>([]);
@@ -11,8 +14,8 @@ function ProductReview() {
     var [similar, setSimilar] = useState<Array<TProduct>>();
     const [manual, setManual] = useState(false);
     const navigate = useNavigate();
-    const sData = useAppSelector((state) => state.products.value)
-    const simData = useAppSelector((state) => state.similar.value)
+    const allProductRedux = useAppSelector(selectData)
+    const simData = useAppSelector(selectSearch)
     const dispatch = useAppDispatch();
     function productReview(item: number) {
         navigate('/product-review', { state: item });
@@ -20,7 +23,7 @@ function ProductReview() {
     }
 
     function getData() {
-        const dataReview = sData.filter((item) => item.id === location.state);
+        const dataReview = allProductRedux.filter((item) => item.id === location.state);
         setProduct(dataReview);
     }
 
@@ -36,15 +39,16 @@ function ProductReview() {
     }
 
     function similarProducts() {
-        const filt = sData.filter((item) => item.category === storeCategory && item.id !== location.state)
+        const filt = allProductRedux.filter((item) => item.category === storeCategory && item.id !== location.state)
         dispatch(similarProduct(filt))
         setSimilar(filt);
     }
 
     useEffect(() => {
-        getData();
-        window.scrollTo(0, 0);
-        categoryList();
+        getData()
+        window.scrollTo(0, 0)
+        categoryList()
+        console.log("CHAL RAHA")
     }, [manual]);
 
     useEffect(() => {
@@ -53,7 +57,8 @@ function ProductReview() {
 
     useEffect(() => {
         similarProducts();
-    }, [storeCategory, sData,similar]);
+        // console.log("YE BHI CHAL RAHA")
+    }, [storeCategory, allProductRedux, similar]);
 
     return (
         <>

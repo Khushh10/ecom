@@ -51,19 +51,19 @@ body {
   transform: translateX(0%);
 }
 
-p.nav-menu-item.active {
+a.menu-drawer.active {
   margin-left: 2px;
   border-left: 10px solid red;
   color: red;
 }
 
-p.nav-menu-item:hover {
+a.menu-drawer:hover {
   margin-left: 2px;
   border-left: 10px solid red;
   color: red;
 }
 
-p.nav-menu-item {
+a.menu-drawer {
   transition: border 200ms linear;
   text-decoration: none;
   display: block;

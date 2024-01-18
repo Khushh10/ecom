@@ -8,6 +8,8 @@ const store = configureStore({
         products: productsSlice,
         similar: searchSlice,
         cart: cartSlice,
+        cartIncrement: cartSlice,
+        availableCategories: cartSlice
     },
 })
 

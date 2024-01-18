@@ -1,8 +1,8 @@
 import { Form } from 'react-bootstrap';
 import { itemsCart } from '../functions';
 import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../store/hooks';
-import { cartInfo } from '../Redux/cartSlice';
+import React from 'react';
+import { useAppSelector } from '../store/hooks';
 
 interface HeaderProps {
     search: () => void;
@@ -14,15 +14,13 @@ interface HeaderProps {
 function Header(props: HeaderProps) {
     const { search, defSearch, setSearchBox } = props
     const navigate = useNavigate()
-    const dispatch = useAppDispatch();
-
+    const cartNum = useAppSelector((state) => state.cart.items)
     function addToCart() {
-        // dispatch(cartInfo(cartI));
-        navigate('/cart'); 
+        navigate('/cart');
     }
+
     return (
         <>
-            {/* <Header defSearch={defSearch} searchBox={searchBox} search={search} setSearchBox={setSearchBox} data={data} /> */}
             <Form className="my-3" onSubmit={defSearch}>
                 <div>
                     <div className="relative w-full min-w-[200px] h-10">
@@ -57,7 +55,7 @@ function Header(props: HeaderProps) {
                 <button onClick={() => { addToCart() }} type="button" className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-3 mx-3">
                     <i className="fa-solid fa-cart-shopping fa-lg"></i>
                     <span className="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">
-                        {itemsCart}
+                        {cartNum}
                     </span>
                 </button>
             </div>
