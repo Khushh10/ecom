@@ -8,22 +8,26 @@ import Product from "./components/Product";
 import Login from "./components/Login";
 import ProductCategory from "./components/ProductCategory";
 import Redux from "./components/Redux";
+import Users from "./components/Users";
+import UserDetails from "./components/UserDetails";
+import { Admin } from "./components/Admin";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/redux" element={<Redux />} />
-            <Route path="/vendors" element={<Vendor />} />
-            <Route path="/products" element={<Product />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/product-category" element={<ProductCategory />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/redux" element={<Redux />} />
+          <Route path="/vendors" element={<Vendor />} />
+          <Route path="/products" element={<Product />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product-category" element={<ProductCategory />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/users/:userId' element={<UserDetails />} />
+          {/* <Route path="/users/admin" element={<Admin />} />  */}
+        </Route>
+      </Routes>
     </div>
   );
 }
