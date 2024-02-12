@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 const SideBar = () => {
   return (
     <div>
-      <Link to="/">Home</Link>
-      <Link to="/redux">Redux</Link>
-      <Link to="/products">Products</Link>
-      <Link to="/vendors">Vendors</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/product-category">Category</Link>
-      <Link to="/users/jewelery">USERS</Link>
+      <Link to="/" className="mx-2">Home</Link>
+      <Link to="/redux" className="mx-2">Redux</Link>
+      <Link to="/products" className="mx-2">Products</Link>
+      <Link to="/checkbox" className="mx-2">CHECKKK</Link>
+      <Link to="/product-category" className="mx-2">Category</Link>
+      <Link to="/users/jewelery" className="mx-2">USERS</Link>
+      <Link to="/trial" className="mx-2">TRIALL</Link>
     </div>
   );
 };
